@@ -11,4 +11,4 @@ Languages:
 
 Authors:
 - Dirk Hortensius  [Dirker27]
-- Mary-Wynn Rogers
+- Mary-Wynn Rogers [DrkAngl90]
