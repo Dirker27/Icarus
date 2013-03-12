@@ -1,7 +1,7 @@
 class Map(object):
 
 	def __init__(self):
-		self.bckgdImg = "../images/bckgdImg1.png"
+		self.bckgdImg = "../img/background/map01.jpg"
 
 	def __str__(self):
 		s = ""

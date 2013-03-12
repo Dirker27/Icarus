@@ -17,5 +17,5 @@ class Menu(Screen):
 			time_passed += self.clock.tick(50)
 
 
-			if (time_passed >= 2000):
+			if (time_passed >= 5e3):
 				sys.exit()
