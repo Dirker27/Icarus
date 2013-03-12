@@ -1,4 +1,4 @@
-class Map(Object):
+class Map(object):
 
 	def __init__(self):
 		self.bckgdImg = "../images/bckgdImg1.png"

@@ -1,4 +1,3 @@
-class Launcher(Object):
+from menu import Menu
 
-	def __init__(self, args):
-		
+Menu()
