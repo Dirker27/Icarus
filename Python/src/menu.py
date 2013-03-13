@@ -11,17 +11,20 @@ from physx     import PhysX_Object
 class Menu(User_Interface):
 
 	def __init__(self):
-		User_Interface.__init__(self, "../img/background/title.jpg", pygame.RESIZABLE)
+		User_Interface.__init__(self, "../img/background/title.jpg", pygame.NOFRAME)
 		self.clock = pygame.time.Clock()
 
 	def run(self):
-		self.startUI()
+		self.start_UI()
 
 		obj_list = []
 		for i in range(0, 15):
+			'''obj_list.append(
+				 PhysX_Object( (randint(0, self.SCREEN_WIDTH), randint(0, self.SCREEN_HEIGHT)) ,
+				               (randint(-100, 100)           , randint(-100, 100))           ) )'''
 			obj_list.append(
 				 PhysX_Object( (randint(0, self.SCREEN_WIDTH), randint(0, self.SCREEN_HEIGHT)) ,
-				               (randint(-100, 100)           , randint(-100, 100))           ) )
+				               (0                            , 0                            )  ) )
 
 		speedup   = False
 		speeddown = False
@@ -64,13 +67,20 @@ class Menu(User_Interface):
 					obj.y_vel = math.fabs(obj.y_vel)
 					#obj.image = pygame.transform.flip(obj.image, False, True)
 
-				# speedup if necessary
+				'''# speedup if necessary
 				if speedup:
 					obj.x_vel *= 1.25
 					obj.y_vel *= 1.25
 				elif speeddown:
 					obj.x_vel *= 0.75
-					obj.y_vel *= 0.75
+					obj.y_vel *= 0.75'''
+				# speedup if necessary
+				if speedup:
+					obj.x_acc += 10
+					obj.y_acc += 10
+				elif speeddown:
+					obj.x_acc -= 10
+					obj.y_acc -= 10
 
 				if printout:
 					print("[", obj.x_loc, ", ", obj.y_loc, "]")
@@ -90,4 +100,4 @@ class Menu(User_Interface):
 			speeddown = False
 			printout  = False
 
-		self.endUI()
+		self.end_UI()

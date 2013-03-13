@@ -9,7 +9,7 @@ class Loader(User_Interface):
 		User_Interface.__init__(self, "../img/background/load.jpg", pygame.NOFRAME, (400, 300))
 
 	def initial_load(self):
-		self.startUI()
+		self.start_UI()
 
 		tasklist = []
 		tasklist.append( ["Planets", self.load_planets] )
@@ -35,7 +35,7 @@ class Loader(User_Interface):
 
 			pygame.display.update()
 
-		self.endUI()
+		self.end_UI()
 
 	def load_planets(self):
 		atom_data = shelve.open("../dat/planet_data.dat")

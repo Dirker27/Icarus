@@ -33,7 +33,7 @@ class User_Interface(object):
                                               obj.y_loc - (obj.image_h/2) )
 		self.screen.blit(obj.image, draw_pos)
 
-	def startUI(self):
+	def start_UI(self):
 		# generate surface object/render window
 		self.screen = pygame.display.set_mode(self.size, self.mode)
 
@@ -41,5 +41,5 @@ class User_Interface(object):
 		self.screen.blit(self.background, self.background.get_rect())
 		pygame.display.flip()
 
-	def endUI(self):
+	def end_UI(self):
 		pygame.quit()
