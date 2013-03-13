@@ -1,5 +1,4 @@
-from menu import Menu
-from loader import Loader
+from world import World
 
-Loader()
-Menu()
+w = World()
+w.execute()

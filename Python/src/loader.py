@@ -1,14 +1,16 @@
 import pickle, shelve
 import pygame
 
-from screen import Screen
+from interface import User_Interface
 
-class Loader(Screen):
+class Loader(User_Interface):
 
 	def __init__(self):
-		Screen.__init__(self, "../img/background/load.jpg", pygame.NOFRAME, (400, 300))
+		User_Interface.__init__(self, "../img/background/load.jpg", pygame.NOFRAME, (400, 300))
 
-	def do_a_thing():
+	def initial_load(self):
+		self.startUI()
+
 		tasklist = []
 		tasklist.append( ["Planets", self.load_planets] )
 		tasklist.append( ["Ships"  , self.load_ships] )
@@ -24,7 +26,7 @@ class Loader(Screen):
 			else:
 				myfont = pygame.font.SysFont("monospace", 15)
 				label = myfont.render(tasklist[current_task][0], 1, (255,255,0))
-				screen.blit(label, (100, 100))
+				self.screen.blit(label, (100, 100))
 
 				pygame.display.flip()
 
@@ -33,9 +35,9 @@ class Loader(Screen):
 
 			pygame.display.update()
 
-		pygame.quit()
+		self.endUI()
 
-	def load_planets():
+	def load_planets(self):
 		atom_data = shelve.open("../dat/planet_data.dat")
 		atom_data["Hydrogen"]   = ["Hydrogen"  , "H" , './images/hydrogen.png'  , 1 ]
 		atom_data["Helium"]     = ["Helium"    , "He", './images/helium.png'    , 2 ]
@@ -71,9 +73,9 @@ class Loader(Screen):
 		atom_data.sync()
 		atom_data.close()
 
-		print("planets loaded!\n")
+		print("planets loaded!")
 
-	def load_ships():
+	def load_ships(self):
 		atom_data = shelve.open("../dat/ship_data.dat")
 		atom_data["Hydrogen"]   = ["Hydrogen"  , "H" , './images/hydrogen.png'  , 1 ]
 		atom_data["Helium"]     = ["Helium"    , "He", './images/helium.png'    , 2 ]
@@ -109,4 +111,4 @@ class Loader(Screen):
 		atom_data.sync()
 		atom_data.close()
 
-		print("ships loaded!\n")
+		print("ships loaded!")

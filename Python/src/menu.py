@@ -1,30 +1,31 @@
+# Python libraries
 import pygame
 import os, sys
 import math
+from random import choice, randint
 
-from screen  import Screen
-from physics import PhysXObject
-from random  import choice, randint
+# Icarus libraries
+from interface import User_Interface
+from physx     import PhysX_Object
 
-class Menu(Screen):
+class Menu(User_Interface):
 
 	def __init__(self):
-		Screen.__init__(self, "../img/background/title.jpg", pygame.RESIZABLE)
-
+		User_Interface.__init__(self, "../img/background/title.jpg", pygame.RESIZABLE)
 		self.clock = pygame.time.Clock()
 
-		self.run()
-
 	def run(self):
+		self.startUI()
+
 		obj_list = []
 		for i in range(0, 15):
 			obj_list.append(
-				 PhysXObject( 10                                                              , 
-				              (randint(0, self.SCREEN_WIDTH), randint(0, self.SCREEN_HEIGHT)) ,
-				              (float(randint(-100, 100))    , float(randint(-100, 100)) )          ) )
+				 PhysX_Object( (randint(0, self.SCREEN_WIDTH), randint(0, self.SCREEN_HEIGHT)) ,
+				               (randint(-100, 100)           , randint(-100, 100))           ) )
 
-		speedup = False
+		speedup   = False
 		speeddown = False
+		printout  = False
 
 		run = True
 		time_total = 0
@@ -42,32 +43,41 @@ class Menu(Screen):
 						speedup = True
 					elif event.key == pygame.K_DOWN:
 						speeddown = True
+					elif event.key == pygame.K_p:
+						printout = True
 
 			self.screen.blit(self.background, self.background.get_rect())
 
 			for obj in obj_list:
 				# restrict to bounds
-				if (obj.pos.x > self.SCREEN_WIDTH):
-					obj.d_x = -(math.fabs(obj.d_x))
+				if (obj.x_loc > self.SCREEN_WIDTH):
+					obj.x_vel = -(math.fabs(obj.x_vel))
 					obj.image = pygame.transform.flip(obj.image, True, False)
-				elif (obj.pos.x < 0):
-					obj.d_x = math.fabs(obj.d_x)
+				elif (obj.x_loc < 0):
+					obj.x_vel = math.fabs(obj.x_vel)
 					obj.image = pygame.transform.flip(obj.image, True, False)
 
-				if (obj.pos.y > self.SCREEN_HEIGHT):
-					obj.d_y = -(math.fabs(obj.d_y))
+				if (obj.y_loc > self.SCREEN_HEIGHT):
+					obj.y_vel = -(math.fabs(obj.y_vel))
 					#obj.image = pygame.transform.flip(obj.image, False, True)
-				elif (obj.pos.y < 0):
-					obj.d_y = math.fabs(obj.d_y)
+				elif (obj.y_loc < 0):
+					obj.y_vel = math.fabs(obj.y_vel)
 					#obj.image = pygame.transform.flip(obj.image, False, True)
 
 				# speedup if necessary
 				if speedup:
-					obj.d_x *= 1.25
-					obj.d_y *= 1.25
+					obj.x_vel *= 1.25
+					obj.y_vel *= 1.25
 				elif speeddown:
-					obj.d_x *= 0.75
-					obj.d_y *= 0.75
+					obj.x_vel *= 0.75
+					obj.y_vel *= 0.75
+
+				if printout:
+					print("[", obj.x_loc, ", ", obj.y_loc, "]")
+					print("(", obj.x_vel, ", ", obj.y_vel, ")")
+					print("<", obj.x_acc, ", ", obj.y_acc, ">")
+
+
 
 				# draw
 				obj.update(time_elapsed)
@@ -76,7 +86,8 @@ class Menu(Screen):
 			pygame.display.flip()
 			pygame.display.update()
 
-			speedup = False
+			speedup   = False
 			speeddown = False
+			printout  = False
 
-		pygame.quit()
+		self.endUI()
