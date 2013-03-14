@@ -11,8 +11,12 @@ Languages:
 
 Authors:
 - Dirk Hortensius  [Dirker27]
-  - Lead Developer
+  - Lead developer
+  - MVC designer
+  - UI component assembly
 - Mary-Wynn Rogers [DrkAngl90]
   - Physicist
+  - Developer
+    - Physics objects
 - David Lillemon
   - Artist
