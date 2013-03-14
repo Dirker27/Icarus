@@ -17,6 +17,5 @@ Authors:
 - Mary-Wynn Rogers [DrkAngl90]
   - Physicist
   - Developer
-    - Physics objects
 - David Lillemon
   - Artist
