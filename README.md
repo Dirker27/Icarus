@@ -11,4 +11,8 @@ Languages:
 
 Authors:
 - Dirk Hortensius  [Dirker27]
+  - Lead Developer
 - Mary-Wynn Rogers [DrkAngl90]
+  - Physicist
+- David Lillemon
+  - Artist
