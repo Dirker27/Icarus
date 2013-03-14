@@ -33,3 +33,8 @@ class PhysX_Object(Game_Object):
 	def event_handling(self, event):
 		Game_Object.event_handling(self, event)
 
+	def kinetice_energy(self):
+		return .5 * self.mass * (self.vel**2)
+
+
+
