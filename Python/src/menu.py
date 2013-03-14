@@ -12,7 +12,7 @@ from button    import Button
 class Main_Menu(User_Interface):
 
 	def __init__(self):
-		User_Interface.__init__(self, "../img/background/title.jpg", pygame.NOFRAME)
+		User_Interface.__init__(self, "../img/background/title.jpg", pygame.RESIZABLE)
 
 		self.object_list = self.get_critters(15)
 		game_btn = Button((100,100), (150, 75), self.game_btn_action)

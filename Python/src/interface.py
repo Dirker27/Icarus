@@ -2,7 +2,7 @@ import pygame
 
 class User_Interface(object):
 
-	def __init__(self, bckgdImg, mode = pygame.RESIZABLE, size = None):
+	def __init__(self, bckgdImg, mode = pygame.NOFRAME, size = None):
 		# pygame inits
 		pygame.init()
 		pygame.display.init()
@@ -56,17 +56,24 @@ class User_Interface(object):
 			time_elapsed      = self.clock.tick(120)
 			self.time_total  += time_elapsed
 
-			# local event handling
-			events = pygame.event.get()
-			if pygame.QUIT in events:
-				self.run = False
+			for event in pygame.event.get():
+				if event == pygame.QUIT:
+					self.cycle = False
+					break
+
+				for obj in self.object_list:
+					obj.event_handling(event)
+
+
+			'''if pygame.MOUSEBUTTONDOWN in events:
+				self.run = False'''
 
 			# initial render
 			self.screen.blit(self.bckgd, self.bckgd.get_rect())
 
 			# content event handling / rendering
 			for obj in self.object_list:
-				obj.update(time_elapsed, events)
+				obj.timed_update(time_elapsed)
 				self.blit_obj(obj)
 
 			# version-specific data

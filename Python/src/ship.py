@@ -15,22 +15,8 @@ class Ship(PhysX_Object):
 
 		self.image = self.img_thrust_off
 
-	def update(self, time_elapsed, events):
+	def timed_update(self, time_elapsed):
 		PhysX_Object.update(self, time_elapsed, events)
-
-		# Event handling/monitoring
-		for event in pygame.event.get():
-
-			if (event.type == pygame.KEYDOWN):
-				if event.key == pygame.K_UP:
-					self.y_acc -= 10
-				elif event.key == pygame.K_DOWN:
-					self.y_acc += 10
-
-				if event.key == pygame.K_LEFT:
-					self.x_acc -= 10
-				elif event.key == pygame.K_RIGHT:
-					self.x_acc += 10
 
 		# thruster image selection
 		if (math.fabs(self.x_acc) <= 25):
@@ -45,3 +31,17 @@ class Ship(PhysX_Object):
 		# image flipping
 		if (self.x_acc < 0) :
 			self.image = pygame.transform.flip(self.image, True, False)
+
+	def event_handling(self, event):
+		PhysX_Object.event_handling(self, event)
+
+		if (event.type == pygame.KEYDOWN):
+			if event.key == pygame.K_UP:
+				self.y_acc -= 10
+			elif event.key == pygame.K_DOWN:
+				self.y_acc += 10
+
+			if event.key == pygame.K_LEFT:
+				self.x_acc -= 10
+			elif event.key == pygame.K_RIGHT:
+				self.x_acc += 10
