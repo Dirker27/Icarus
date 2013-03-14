@@ -7,7 +7,7 @@ class User_Interface(object):
 		pygame.init()
 		pygame.display.init()
 
-		# callibrate sizing elements
+		# calibrate sizing elements
 		if (size != None):
 			self.SCREEN_WIDTH  = size[0]
 			self.SCREEN_HEIGHT = size[1]
@@ -18,15 +18,19 @@ class User_Interface(object):
 			self.SCREEN_HEIGHT *= 0.75
 
 		# UI characteristics
-		self.size = (int(self.SCREEN_WIDTH), int(self.SCREEN_HEIGHT))
-		self.mode = mode
-
-		# load background
-		self.background = pygame.transform.scale(pygame.image.load(bckgdImg), self.size)
-
-		# surface object to be null until activation
+		self.size   = (int(self.SCREEN_WIDTH), int(self.SCREEN_HEIGHT))
+		self.mode   = mode
+		self.bckgd  = pygame.transform.scale(pygame.image.load(bckgdImg), self.size)
 		self.screen = None
 
+		# UI contents
+		self.object_list = []
+
+		# UI time
+		self.clock      = pygame.time.Clock()
+		self.time_total = 0
+
+		self.cycle = True
 
 	def blit_obj(self, obj):
 		draw_pos = obj.image.get_rect().move( obj.x_loc - (obj.image_w/2) ,
@@ -38,8 +42,38 @@ class User_Interface(object):
 		self.screen = pygame.display.set_mode(self.size, self.mode)
 
 		# initial blit
-		self.screen.blit(self.background, self.background.get_rect())
+		self.screen.blit(self.bckgd, self.bckgd.get_rect())
 		pygame.display.flip()
 
 	def end_UI(self):
 		pygame.quit()
+
+	def execute(self):
+		self.start_UI()
+
+		while self.cycle:
+			# Time Tracking
+			time_elapsed      = self.clock.tick(120)
+			self.time_total  += time_elapsed
+
+			# local event handling
+			events = pygame.event.get()
+			if pygame.QUIT in events:
+				self.run = False
+
+			# initial render
+			self.screen.blit(self.bckgd, self.bckgd.get_rect())
+
+			# content event handling / rendering
+			for obj in self.object_list:
+				obj.update(time_elapsed, events)
+				self.blit_obj(obj)
+
+			# version-specific data
+			self.update()
+
+			pygame.display.flip()
+			pygame.display.update()
+
+		self.cycle = True
+		self.end_UI()

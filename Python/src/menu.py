@@ -7,97 +7,46 @@ from random import choice, randint
 # Icarus libraries
 from interface import User_Interface
 from physx     import PhysX_Object
+from button    import Button
 
-class Menu(User_Interface):
+class Main_Menu(User_Interface):
 
 	def __init__(self):
 		User_Interface.__init__(self, "../img/background/title.jpg", pygame.NOFRAME)
-		self.clock = pygame.time.Clock()
 
-	def run(self):
-		self.start_UI()
+		self.object_list = self.get_critters(15)
+		game_btn = Button((100,100), (150, 75), self.game_btn_action)
+		self.object_list.append(game_btn)
 
+		self.choice = None
+
+	def get_critters(self, pop):
 		obj_list = []
-		for i in range(0, 15):
-			'''obj_list.append(
-				 PhysX_Object( (randint(0, self.SCREEN_WIDTH), randint(0, self.SCREEN_HEIGHT)) ,
-				               (randint(-100, 100)           , randint(-100, 100))           ) )'''
+		for i in range(0, pop):
 			obj_list.append(
 				 PhysX_Object( (randint(0, self.SCREEN_WIDTH), randint(0, self.SCREEN_HEIGHT)) ,
-				               (0                            , 0                            )  ) )
+				               (randint(-100, 100)           , randint(-100, 100)           )  ) )
 
-		speedup   = False
-		speeddown = False
-		printout  = False
+		return obj_list
 
-		run = True
-		time_total = 0
-		while True:
-			time_elapsed = self.clock.tick(60)
-			time_total += time_elapsed
+	def game_btn_action(self):
+		self.cycle = False
+		self.choice = 1
 
-			# Event handling/monitoring
-			for event in pygame.event.get():
-				if event.type == pygame.QUIT:
-					run = False
-					break
-				if (event.type == pygame.KEYDOWN):
-					if event.key == pygame.K_UP:
-						speedup = True
-					elif event.key == pygame.K_DOWN:
-						speeddown = True
-					elif event.key == pygame.K_p:
-						printout = True
+	def update(self):
+		for obj in self.object_list:
+			# restrict to bounds
+			if (obj.x_loc > self.SCREEN_WIDTH):
+				obj.x_vel = -(math.fabs(obj.x_vel))
+			elif (obj.x_loc < 0):
+				obj.x_vel = math.fabs(obj.x_vel)
 
-			self.screen.blit(self.background, self.background.get_rect())
+			if (obj.y_loc > self.SCREEN_HEIGHT):
+				obj.y_vel = -(math.fabs(obj.y_vel))
+			elif (obj.y_loc < 0):
+				obj.y_vel = math.fabs(obj.y_vel)
 
-			for obj in obj_list:
-				# restrict to bounds
-				if (obj.x_loc > self.SCREEN_WIDTH):
-					obj.x_vel = -(math.fabs(obj.x_vel))
-					obj.image = pygame.transform.flip(obj.image, True, False)
-				elif (obj.x_loc < 0):
-					obj.x_vel = math.fabs(obj.x_vel)
-					obj.image = pygame.transform.flip(obj.image, True, False)
+	def execute(self):
+		User_Interface.execute(self)
 
-				if (obj.y_loc > self.SCREEN_HEIGHT):
-					obj.y_vel = -(math.fabs(obj.y_vel))
-					#obj.image = pygame.transform.flip(obj.image, False, True)
-				elif (obj.y_loc < 0):
-					obj.y_vel = math.fabs(obj.y_vel)
-					#obj.image = pygame.transform.flip(obj.image, False, True)
-
-				'''# speedup if necessary
-				if speedup:
-					obj.x_vel *= 1.25
-					obj.y_vel *= 1.25
-				elif speeddown:
-					obj.x_vel *= 0.75
-					obj.y_vel *= 0.75'''
-				# speedup if necessary
-				if speedup:
-					obj.x_acc += 10
-					obj.y_acc += 10
-				elif speeddown:
-					obj.x_acc -= 10
-					obj.y_acc -= 10
-
-				if printout:
-					print("[", obj.x_loc, ", ", obj.y_loc, "]")
-					print("(", obj.x_vel, ", ", obj.y_vel, ")")
-					print("<", obj.x_acc, ", ", obj.y_acc, ">")
-
-
-
-				# draw
-				obj.update(time_elapsed)
-				self.blit_obj(obj)
-
-			pygame.display.flip()
-			pygame.display.update()
-
-			speedup   = False
-			speeddown = False
-			printout  = False
-
-		self.end_UI()
+		return self.choice
