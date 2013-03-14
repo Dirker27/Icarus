@@ -56,24 +56,20 @@ class User_Interface(object):
 			time_elapsed      = self.clock.tick(120)
 			self.time_total  += time_elapsed
 
+			events = []
 			for event in pygame.event.get():
 				if event == pygame.QUIT:
 					self.cycle = False
 					break
 
-				for obj in self.object_list:
-					obj.event_handling(event)
-
-
-			'''if pygame.MOUSEBUTTONDOWN in events:
-				self.run = False'''
+				events.append(event)
 
 			# initial render
 			self.screen.blit(self.bckgd, self.bckgd.get_rect())
 
 			# content event handling / rendering
 			for obj in self.object_list:
-				obj.timed_update(time_elapsed)
+				obj.update(time_elapsed, events)
 				self.blit_obj(obj)
 
 			# version-specific data

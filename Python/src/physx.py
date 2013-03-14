@@ -22,14 +22,11 @@ class PhysX_Object(Game_Object):
 	def momentum(self):
 		return self.mass * math.sqrt( (self.d_x ** 2) + (self.d_y ** 2) )
 
-	def timed_update(self, time_elapsed):
-		Game_Object.timed_update(self, time_elapsed)
+	def update(self, time_elapsed, events):
+		Game_Object.update(self, time_elapsed, events)
 
 		time_elapsed /= 1000.0	#convert [ms] to [s]
 
 		self.x_vel += (self.x_acc * time_elapsed)
 		self.y_vel += (self.y_acc * time_elapsed)
-
-	def event_handling(self, event):
-		Game_Object.event_handling(self, event)
 

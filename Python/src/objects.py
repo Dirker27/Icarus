@@ -16,10 +16,7 @@ class Sprite(object):
 		self.image = pygame.transform.scale(self.image, size)
 		self.image_w, self.image_h = self.image.get_size()
 
-	def timed_update(self, time_elapsed):
-		self.x_loc = self.x_loc
-
-	def event_handling(self, event):
+	def update(self, time_elapsed, events):
 		self.x_loc = self.x_loc
 
 	def hover(self):
@@ -48,11 +45,8 @@ class Game_Object(Sprite):
 	def __lt__(self, other):
 		return (self.x_loc < other.x_loc) and (self.y_loc < other.y_loc)
 
-	def timed_update(self, time_elapsed):
+	def update(self, time_elapsed, events):
 		time_elapsed /= 1000.0	#convert [ms] to [s]
 
 		self.x_loc += (self.x_vel * time_elapsed)
 		self.y_loc += (self.y_vel * time_elapsed)
-
-	def event_handling(self, event):
-		Sprite.event_handling(self, event)

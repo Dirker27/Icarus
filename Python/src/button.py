@@ -33,9 +33,9 @@ class Button(Sprite):
 	def mouse_out(self):
 		self.image = self.image_up
 
-	def timed_update(self, time_elapsed, events):
+	def update(self, time_elapsed, events):
 		# super
-		Sprite.timed_update(self, time_elapsed, events)
+		Sprite.update(self, time_elapsed, events)
 
 		hover = False
 		# hover images
@@ -47,22 +47,19 @@ class Button(Sprite):
 
 
 		for event in events:
-			if (event == pygame.MOUSEBUTTONDOWN):# and (event.button == 1):
+			if (event.type == pygame.MOUSEBUTTONDOWN):# and (event.button == 1):
 				if hover:
 					self.phase1 = True
 				else:
 					self.phase1 = False
 
-				print("DOWN:", self.phase1, self.phase2)
-
-			if (event == pygame.MOUSEBUTTONUP):# and (event.button == 1):
+			if (event.type == pygame.MOUSEBUTTONUP):# and (event.button == 1):
 				if hover:
-					self.phase2 = True
+					self.phase2 = True and self.phase1
 				else:
 					self.phase2 = False
 
-				print("UP:", self.phase1, self.phase2)
-
 		if (self.phase1) and (self.phase2):
 			self.click()
-			self.phase1, self.phase2 = False
+			self.phase1 = False
+			self.phase2 = False
