@@ -34,6 +34,7 @@ class Game_Object(Sprite):
 		          loc        = (0.0, 0.0)                    ,
 		          vel        = (0.0, 0.0)                    ,
 		          size       = (50, 50)                      , 
+		          xy_orr     = 0                             ,
 		          image_file = "../img/ToasterCatSprite.png" ):
 		# super
 		Sprite.__init__(self, loc, size, image_file)
@@ -41,6 +42,9 @@ class Game_Object(Sprite):
 		# velocity
 		self.x_vel = float(vel[0])
 		self.y_vel = float(vel[1])
+
+		# xy-plane orientation
+		self.xy_orr = xy_orr
 		
 	def __lt__(self, other):
 		return (self.x_loc < other.x_loc) and (self.y_loc < other.y_loc)
