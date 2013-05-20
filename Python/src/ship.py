@@ -15,32 +15,68 @@ class Ship(PhysX_Object):
 
 		self.image = self.img_thrust_off
 
+		# control attributes
+		self.x_thrust = 0
+		self.y_thrust = 0
+		self.thrust_mode = True
+		self.thrust_max  = 10
+		self.inert_damp  = 0.25
+
+
 	def update(self, time_elapsed, events):
 		PhysX_Object.update(self, time_elapsed, events)
 
 		# event handling
 		for event in events:
-			if (event.type == pygame.KEYDOWN):
-				if event.key == pygame.K_UP:
-					self.y_acc -= 10
-				elif event.key == pygame.K_DOWN:
-					self.y_acc += 10
 
+			if (event.type == pygame.KEYDOWN):
+
+				# SPACE == change thruster mode
+				if event.key == pygame.K_SPACE:
+					self.thrust_mode = False
+
+				# UP/DOWN == vertical thrusters
+				if event.key == pygame.K_UP:
+					if self.thrust_mode:
+						self.y_thrust -= 1
+					else:
+						self.y_vel -= 15
+				elif event.key == pygame.K_DOWN:
+					if self.thrust_mode:
+						self.y_thrust += 1
+					else:
+						self.y_vel += 15
+
+				# LEFT/RIGHT = horizontal thrusters
 				if event.key == pygame.K_LEFT:
-					self.x_acc -= 10
+					if self.thrust_mode:
+						self.x_thrust -= 1
+					else:
+						self.x_vel -= 15
 				elif event.key == pygame.K_RIGHT:
-					self.x_acc += 10
+					if self.thrust_mode:
+						self.x_thrust += 1
+					else:
+						self.x_vel += 15
 
 		# thruster image selection
-		if (math.fabs(self.x_acc) <= 25):
+		if (math.fabs(self.x_thrust) <= 1):
 			self.image = self.img_thrust_off
-		elif (math.fabs(self.x_acc) <= 50):
+		elif (math.fabs(self.x_thrust) <= 3):
 			self.image = self.img_thrust_low
-		elif (math.fabs(self.x_acc) <= 75):
+		elif (math.fabs(self.x_thrust) <= 5):
 			self.image = self.img_thrust_med
 		else:
 			self.image = self.img_thrust_full
 
 		# image flipping
-		if (self.x_acc < 0) :
+		if (self.x_thrust < 0) :
 			self.image = pygame.transform.flip(self.image, True, False)
+
+		# poor man's thrust implementation
+		self.x_acc += self.x_thrust
+		self.y_acc += self.y_thrust
+
+		# inertial dampening
+		self.x_vel -= self.x_vel * self.inert_damp
+		self.y_vel -= self.y_vel * self.inert_damp

@@ -18,3 +18,5 @@ class World(object):
 			if (action == 1):
 				g = Game()
 				g.execute()
+			elif (action == 0):
+				exit()

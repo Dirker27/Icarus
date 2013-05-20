@@ -16,7 +16,9 @@ class Main_Menu(User_Interface):
 
 		self.object_list = self.get_critters(15)
 		game_btn = Button((100,100), (150, 75), self.game_btn_action)
+		exit_btn = Button((100,300), (150, 75), self.exit_btn_action)
 		self.object_list.append(game_btn)
+		self.object_list.append(exit_btn)
 
 		self.choice = None
 
@@ -30,8 +32,12 @@ class Main_Menu(User_Interface):
 		return obj_list
 
 	def game_btn_action(self):
-		self.cycle = False
+		self.cycle  = False
 		self.choice = 1
+
+	def exit_btn_action(self):
+		self.cycle  = False
+		self.choice = 0
 
 	def update(self):
 		for obj in self.object_list:
