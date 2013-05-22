@@ -6,7 +6,7 @@ from physx import PhysX_Object
 class Ship(PhysX_Object):
 
 	def __init__(self):
-		PhysX_Object.__init__(self, (0, 100), (0, 0), (0, 0), 10000)
+		PhysX_Object.__init__(self, (0, 100), (0, 0), (0, 0), (50, 50), 2.2e3)
 
 		self.img_thrust_full = pygame.image.load("../img/toastercat_thrust_full.png")
 		self.img_thrust_med  = pygame.image.load("../img/toastercat_thrust_med.png")
@@ -61,11 +61,11 @@ class Ship(PhysX_Object):
 
 		# thruster image selection
 		if (math.fabs(self.x_thrust) <= 1):
-			self.image = self.img_thrust_off
+			self.load_image(self.img_thrust_off)
 		elif (math.fabs(self.x_thrust) <= 3):
-			self.image = self.img_thrust_low
+			self.load_image(self.img_thrust_low)
 		elif (math.fabs(self.x_thrust) <= 5):
-			self.image = self.img_thrust_med
+			self.load_image(self.img_thrust_med)
 		else:
 			self.image = self.img_thrust_full
 

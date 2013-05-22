@@ -4,14 +4,15 @@ from objects import Game_Object
 
 class PhysX_Object(Game_Object):
 
-	def __init__( self             ,
-	              loc = (0.0, 0.0) ,
-	              vel = (0.0, 0.0) ,
-	              acc = (0.0, 0.0) ,
-	              mass = 1         ,
-	              spin = 0		   ):	
+	def __init__( self              ,
+	              loc  = (0.0, 0.0) ,
+	              vel  = (0.0, 0.0) ,
+	              acc  = (0.0, 0.0) ,
+	              size = (50, 50)   ,
+	              mass = 1          ,
+	              spin = 0	        ):	
 		# super
-		Game_Object.__init__(self, loc, vel)
+		Game_Object.__init__(self, loc, vel, size)
 
 		# mass
 		self.mass  = mass

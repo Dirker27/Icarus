@@ -8,7 +8,9 @@ class Game(User_Interface):
 
 	def __init__(self):
 		# super
-		User_Interface.__init__(self, "../img/background/title.jpg", pygame.NOFRAME)
+		User_Interface.__init__(self, "../img/background/title.jpg") #, pygame.RESIZABLE)
+		self.debug = True
+
 		self.player = Ship()
 		self.planets = []
 
@@ -35,3 +37,15 @@ class Game(User_Interface):
 			self.cycle = False
 		elif (self.player.y_loc > self.SCREEN_HEIGHT) or (self.player.y_loc < 0):
 			self.cycle = False
+
+
+	def repaint(self):
+		User_Interface.repaint(self)
+
+		font = pygame.font.Font(None, 20)
+
+		text = "X-Thrust: " + str(self.player.x_thrust)
+		self.screen.blit(font.render(text, True, (255,255,255)), (25, 25))
+
+		text = "Y-Thrust: " + str(self.player.y_thrust)
+		self.screen.blit(font.render(text, True, (255,255,255)), (25, 50))

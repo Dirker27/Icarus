@@ -22,6 +22,7 @@ class User_Interface(object):
 		self.mode   = mode
 		self.bckgd  = pygame.transform.scale(pygame.image.load(bckgdImg), self.size)
 		self.screen = None
+		self.debug  = False
 
 		# UI contents
 		self.object_list = []
@@ -31,11 +32,6 @@ class User_Interface(object):
 		self.time_total = 0
 
 		self.cycle = True
-
-	def blit_obj(self, obj):
-		draw_pos = obj.image.get_rect().move( obj.x_loc - (obj.image_w/2) ,
-                                              obj.y_loc - (obj.image_h/2) )
-		self.screen.blit(obj.image, draw_pos)
 
 	def start_UI(self):
 		# generate surface object/render window
@@ -64,19 +60,50 @@ class User_Interface(object):
 
 				events.append(event)
 
-			# initial render
-			self.screen.blit(self.bckgd, self.bckgd.get_rect())
-
-			# content event handling / rendering
+			# content event handling
 			for obj in self.object_list:
 				obj.update(time_elapsed, events)
-				self.blit_obj(obj)
 
 			# version-specific data
 			self.update()
 
+			self.repaint()
 			pygame.display.flip()
 			pygame.display.update()
 
 		self.cycle = True
 		self.end_UI()
+
+	def repaint(self):
+		# initial render
+		self.screen.blit(self.bckgd, self.bckgd.get_rect())
+
+		# content rendering
+		for obj in self.object_list:
+			self.blit_obj(obj)
+
+	def blit_obj(self, obj):
+		draw_pos = obj.get_rect()
+
+		if (self.debug):
+			# background
+			t_pos = (draw_pos[0], draw_pos[1])
+			backgrd = pygame.Surface( (obj.image_w, obj.image_h) )
+			backgrd.fill( (0, 0, 255) )
+			backgrd.set_alpha(50)
+			self.screen.blit(backgrd, t_pos)
+
+		self.screen.blit(obj.image, draw_pos)
+
+		if (self.debug):
+			#TL
+			point = pygame.Surface( (4, 4) )
+			point.fill( (0, 255, 0) )
+			point.set_alpha(75)
+			self.screen.blit(point, t_pos)
+
+			#core
+			t_pos = (obj.x_loc-2, obj.y_loc-2)
+			point.fill( (255, 0, 0) )
+			point.set_alpha(100)
+			self.screen.blit(point, t_pos)

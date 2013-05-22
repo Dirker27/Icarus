@@ -12,6 +12,7 @@ class Sprite(object):
 		self.y_loc = float(loc[1])
 
 		# image data
+		self.size  = size
 		self.image = pygame.image.load(image_file)
 		self.image = pygame.transform.scale(self.image, size)
 		self.image_w, self.image_h = self.image.get_size()
@@ -21,6 +22,11 @@ class Sprite(object):
 
 	def hover(self):
 		return (self.get_rect().collidepoint(pygame.mouse.get_pos()) == True)
+
+	def load_image(self, image):
+		#self.image = pygame.image.load(image)
+		self.image = image
+		self.image = pygame.transform.scale(self.image, self.size)
 
 	def get_rect(self):
 		return self.image.get_rect().move( self.x_loc - (self.image_w/2) ,

@@ -6,10 +6,10 @@ from physx import PhysX_Object
 class Planet(PhysX_Object):
 
 	def __init__(self, location, category = 2):
-		PhysX_Object.__init__(self, location, (0, 0), (0, 0), 1e5, 1)
+		PhysX_Object.__init__(self, location, (0, 0), (0, 0), (200, 200), 1e10, 1)
 
 		source = "../img/planet_" + str(category) + ".png"
-		self.image = pygame.image.load(source)
+		self.load_image(pygame.image.load(source))
 
 	def update(self, time_elapsed, events):
 		PhysX_Object.update(self, time_elapsed, events)
@@ -19,7 +19,7 @@ class Planet(PhysX_Object):
 		d_y = math.fabs(self.y_loc) - math.fabs(other.y_loc)
 		r = (d_x ** 2) + (d_y ** 2)
 
-		G = 6.67e1
+		G = 6.67e-5
 
 		acc = G * self.mass / (r ** 1)
 
