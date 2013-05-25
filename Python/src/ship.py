@@ -73,10 +73,13 @@ class Ship(PhysX_Object):
 		if (self.x_thrust < 0) :
 			self.image = pygame.transform.flip(self.image, True, False)
 
-		# poor man's thrust implementation
-		self.x_acc += self.x_thrust
-		self.y_acc += self.y_thrust
+		# thrust implementation
+		#self.x_acc += self.x_thrust * (time_elapsed / 1000)
+		#self.y_acc += self.y_thrust * (time_elapsed / 1000)
+
+		self.x_acc = self.x_thrust * 5
+		self.y_acc = self.y_thrust * 5
 
 		# inertial dampening
-		self.x_vel -= self.x_vel * self.inert_damp
-		self.y_vel -= self.y_vel * self.inert_damp
+		self.x_vel -= (self.x_vel * self.inert_damp) * (time_elapsed / 1000)
+		self.y_vel -= (self.y_vel * self.inert_damp) * (time_elapsed / 1000)

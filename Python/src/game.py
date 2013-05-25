@@ -44,8 +44,45 @@ class Game(User_Interface):
 
 		font = pygame.font.Font(None, 20)
 
-		text = "X-Thrust: " + str(self.player.x_thrust)
-		self.screen.blit(font.render(text, True, (255,255,255)), (25, 25))
+		if (self.debug):
+			text = "Thr: (" + str(int(self.player.x_thrust)) + ", " + str(int(self.player.y_thrust)) + ")"
+			self.screen.blit(font.render(text, True, (255,255,255)), (25, 25))
 
-		text = "Y-Thrust: " + str(self.player.y_thrust)
-		self.screen.blit(font.render(text, True, (255,255,255)), (25, 50))
+			text = "Acc: (" + str(int(self.player.x_acc)) + ", " + str(int(self.player.y_acc)) + ")"
+			self.screen.blit(font.render(text, True, (255,255,255)), (25, 50))
+
+			text = "Vel: (" + str(int(self.player.x_vel)) + ", " + str(int(self.player.y_vel)) + ")"
+			self.screen.blit(font.render(text, True, (255,255,255)), (25, 75))
+
+
+	def blit_obj(self, obj):
+		if (obj != self.player):
+			draw_pos = obj.get_rect()
+
+			if (self.debug):
+				# background
+				t_pos = (obj.x_loc - 200, obj.y_loc - 200)
+				backgrd = pygame.Surface( (400, 400) )
+				backgrd.fill( (255, 255, 0) )
+				backgrd.set_alpha(50)
+				self.screen.blit(backgrd, t_pos)
+				#color = (255, 255, 0)
+				#pos = (int(obj.x_loc), int(obj.y_loc))
+				#pygame.draw.circle(self.screen, color, pos, 400)
+
+			self.screen.blit(obj.image, draw_pos)
+
+			if (self.debug):
+				#TL
+				point = pygame.Surface( (4, 4) )
+				point.fill( (0, 255, 0) )
+				point.set_alpha(75)
+				self.screen.blit(point, t_pos)
+
+				#core
+				t_pos = (obj.x_loc-2, obj.y_loc-2)
+				point.fill( (255, 0, 0) )
+				point.set_alpha(100)
+				self.screen.blit(point, t_pos)
+		else:
+			User_Interface.blit_obj(self, obj)

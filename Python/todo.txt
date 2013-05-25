@@ -1,0 +1,30 @@
+TO-DO LIST  ||
+            ||
+ICARUS      ||
+============++
+
+Dirk:
+	- Multithreading
+		- 60-120Hz repainting thread
+		- 120Hz model thread
+			- Even handling
+			- movement
+			- gravitation
+			- thrust
+
+	- Data Structures
+		- Sector/R-tree
+			- Moving objects
+			- collision detection within sectors
+				?: overlapping/neighboring sectors
+			- Gravitation Calculations
+				- Each sector provides a gravity vector
+
+	- Rotational Thrust controls
+
+Mary-Wynn:
+	- GIVE ME A GERD DERMN PHYSAKS ERNJAN!!!
+
+David:
+	- More art!
+			
